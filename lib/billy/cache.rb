@@ -79,13 +79,13 @@ module Billy
               method + '_' + url.host + '_' + Digest::SHA1.hexdigest(scope.to_s + url.to_s)
             end
       body_msg = ''
-
+=begin
       if method == 'post' && !ignore_params && !merge_cached_response_key
         body_formatted = JSONUtils.json?(body.to_s) ? JSONUtils.sort_json(body.to_s) : body.to_s
         body_msg = " with body '#{body_formatted}'"
         key += '_' + Digest::SHA1.hexdigest(body_formatted)
       end
-
+=end
       Billy.log(:info, "puffing-billy: CACHE KEY for '#{orig_url}#{body_msg}' is '#{key}'") if log_key
       key
     end
@@ -120,6 +120,10 @@ module Billy
 
     def scope_to(new_scope = nil)
       self.scope = new_scope
+    end
+
+    def cache_name(new_name = nil)
+      self.cache_name = new_name
     end
 
     def with_scope(use_scope = nil, &block)
